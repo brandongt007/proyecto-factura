@@ -1,17 +1,33 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .forms import ProductoForm
-from facturas.models import Producto, Factura
+from .forms import ClienteForm
+from facturas.models import Producto, Factura, Cliente
 
 def factura_nueva(request):
     if request.method == "POST":
-        formulario = ProductoForm(request.POST)
+        formulario = ClienteForm(request.POST)
         if formulario.is_valid():
-            producto = Producto.objects.create(nombre=formulario.cleaned_data['nombre'], precio = formulario.cleaned_data['precio'], stock = formulario.cleaned_data['stock'])
-            for cliente_id in request.POST.getlist('clientes'):
-                factura = Factura(cliente_id=cliente_id, producto_id = producto.id)
+            cliente = Cliente.objects.create(
+            nit = formulario.cleaned_data['nit'],
+            nombre = formulario.cleaned_data['nombre'],
+            apellido = formulario.cleaned_data['apellido'],
+            direccion = formulario.cleaned_data['direccion'],
+            email = formulario.cleaned_data['email'],
+            telefono = formulario.cleaned_data['telefono'])
+            for producto_id in request.POST.getlist('productos'):
+                factura = Factura(producto_id=producto_id, cliente_id = cliente.id)
                 factura.save()
-            messages.add_message(request, messages.SUCCESS, 'Producto Guardada Exitosamente.')
+            messages.add_message(request, messages.SUCCESS, 'Factura Creada con Exito.')
     else:
-        formulario = ProductoForm()
-    return render(request, 'facturas/factura_editar.html', {'formulario': formulario})
+        formulario = ClienteForm()
+    return render(request, 'facturas/factura_nueva.html', {'formulario': formulario})
+
+def factura_lista(request):
+    #clientes = Factura.objects.filter(cliente__nit=12345678)
+    clientes = Cliente.objects.all()
+    return render(request, 'facturas/factura_lista.html', {'clientes': clientes})
+
+def factura_remove(request, pk):
+    cliente = get_object_or_404(Cliente, pk=pk)
+    cliente.delete()
+    return redirect('factura_lista')

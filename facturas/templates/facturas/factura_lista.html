@@ -1,0 +1,33 @@
+{% extends 'facturas/base.html' %}
+
+{% block content %}
+    <h1>Listado de Facturas</h1>
+
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Nit</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Direccion</th>
+          <th scope="col">Telefono</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cliente in clientes %}
+        <tr>
+          <th scope="row">{{ cliente.nit }}</th>
+          <td>{{ cliente.nombre }} {{ cliente.apellido }}</td>
+          <td>{{ cliente.direccion }}</td>
+          <td>{{ cliente.telefono }}</td>
+          <td>
+            <div class="" role="" aria-label="Basic example">
+              <a href="#" type="button" class="btn btn-outline-info" role="button" aria-pressed="true">Productos</a>
+              <a href="{% url 'factura_remove' pk=cliente.pk %}" type="button" class="btn btn-outline-danger" role="button" aria-pressed="true">Eliminar</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}

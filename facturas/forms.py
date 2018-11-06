@@ -1,14 +1,14 @@
 from django import forms
 from .models import Producto, Cliente
 
-class ProductoForm(forms.ModelForm):
+class ClienteForm(forms.ModelForm):
 #todos los campos de Pelicula
     class Meta:
-        model = Producto
-        fields = ('nombre', 'precio', 'stock', 'clientes')
+        model = Cliente
+        fields = ('nit', 'nombre', 'apellido', 'direccion', 'email', 'telefono', 'productos')
 
 def __init__ (self, *args, **kwargs):
-        super(ProductoForm, self).__init__(*args, **kwargs)
-        self.fields["clientes"].widget = forms.widgets.CheckboxSelectMultiple()
-        self.fields["clientes"].help_text = "Ingrese Clientes"
-        self.fields["clientes"].queryset = Cliente.objects.all()
+        super(ClienteForm, self).__init__(*args, **kwargs)
+        self.fields["productos"].widget = forms.widgets.CheckboxSelectMultiple()
+        self.fields["productos"].help_text = "Ingrese Productos"
+        self.fields["productos"].queryset = Producto.objects.all()
