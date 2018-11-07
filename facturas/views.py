@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .forms import ClienteForm, ProductoForm
 from facturas.models import Producto, Factura, Cliente
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def factura_nueva(request):
     if request.method == "POST":
         formulario = ClienteForm(request.POST)
@@ -22,22 +24,25 @@ def factura_nueva(request):
         formulario = ClienteForm()
     return render(request, 'facturas/factura_nueva.html', {'formulario': formulario})
 
+@login_required
 def factura_lista(request):
     #clientes = Factura.objects.filter(cliente__nit=12345678)
     clientes = Cliente.objects.all()
     return render(request, 'facturas/factura_lista.html', {'clientes': clientes})
 
+@login_required
 def factura_remove(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
     cliente.delete()
     return redirect('factura_lista')
 
+@login_required
 def producto_lista(request):
     #clientes = Factura.objects.filter(cliente__nit=12345678)
     productos = Producto.objects.all()
     return render(request, 'productos/producto_lista.html', {'productos': productos})
 
-
+@login_required
 def producto_nuevo(request):
     if request.method == "POST":
         formulario = ProductoForm(request.POST)
@@ -52,6 +57,7 @@ def producto_nuevo(request):
         formulario = ProductoForm()
     return render(request, 'productos/producto_crear.html', {'formulario': formulario})
 
+@login_required
 def producto_editar(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
@@ -64,7 +70,7 @@ def producto_editar(request, pk):
         formulario = ProductoForm(instance=producto)
     return render(request, 'productos/producto_editar.html', {'formulario': formulario})
 
-
+@login_required
 def producto_remove(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     producto.delete()
