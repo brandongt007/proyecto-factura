@@ -12,3 +12,9 @@ def __init__ (self, *args, **kwargs):
         self.fields["productos"].widget = forms.widgets.CheckboxSelectMultiple()
         self.fields["productos"].help_text = "Ingrese Productos"
         self.fields["productos"].queryset = Producto.objects.all()
+
+class ProductoForm(forms.ModelForm):
+#todos los campos de Pelicula
+    class Meta:
+        model = Producto
+        fields = ('nombre', 'precio', 'stock')

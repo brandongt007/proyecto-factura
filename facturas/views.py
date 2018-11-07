@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .forms import ClienteForm
+from .forms import ClienteForm, ProductoForm
 from facturas.models import Producto, Factura, Cliente
 
 def factura_nueva(request):
@@ -31,3 +31,42 @@ def factura_remove(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
     cliente.delete()
     return redirect('factura_lista')
+
+def producto_lista(request):
+    #clientes = Factura.objects.filter(cliente__nit=12345678)
+    productos = Producto.objects.all()
+    return render(request, 'productos/producto_lista.html', {'productos': productos})
+
+
+def producto_nuevo(request):
+    if request.method == "POST":
+        formulario = ProductoForm(request.POST)
+        if formulario.is_valid():
+            producto = Producto.objects.create(
+            nombre = formulario.cleaned_data['nombre'],
+            precio = formulario.cleaned_data['precio'],
+            stock = formulario.cleaned_data['stock'])
+            return redirect('producto_lista')
+            messages.add_message(request, messages.SUCCESS, 'Factura Creada con Exito.')
+    else:
+        formulario = ProductoForm()
+    return render(request, 'productos/producto_crear.html', {'formulario': formulario})
+
+def producto_editar(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    if request.method == "POST":
+        form = ProductoForm(request.POST)
+        if form.is_valid():
+            producto = form.save(commit=False)
+            producto.pk = pk
+            producto.save()
+            return redirect('producto_lista')
+    else:
+        form = ProductoForm()
+    return render(request, 'productos/producto_editar.html', {'form': form})
+
+
+def producto_remove(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    producto.delete()
+    return redirect('producto_lista')

@@ -1,0 +1,34 @@
+{% extends 'facturas/base.html' %}
+
+{% block content %}
+    <h1>Listado de Productos</h1>
+    <a href="{% url 'producto_nuevo' %}" type="button" class="btn btn-outline-warning" role="button" aria-pressed="true">Agregar Nuevo Producto</a>
+    <br>
+    <br>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for producto in productos %}
+        <tr>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.precio }}</td>
+          <td>{{ producto.stock }}</td>
+          <td>
+            <div class="" role="" aria-label="Basic example">
+              <a href="#" type="button" class="btn btn-outline-info" role="button" aria-pressed="true">Ver</a>
+              <a href="{% url 'producto_editar' pk=producto.pk %}" type="button" class="btn btn-outline-success" role="button" aria-pressed="true">Editar</a>
+              <a href="{% url 'producto_remove' pk=producto.pk %}" type="button" class="btn btn-outline-danger" role="button" aria-pressed="true">Eliminar</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}
