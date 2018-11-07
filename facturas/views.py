@@ -54,16 +54,15 @@ def producto_nuevo(request):
 
 def producto_editar(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
-    if request.method == "POST":
-        form = ProductoForm(request.POST)
-        if form.is_valid():
-            producto = form.save(commit=False)
-            producto.pk = pk
+    if request.method == 'POST':
+        formulario = ProductoForm(request.POST, request.FILES, instance=producto)
+        if formulario.is_valid():
+            producto = formulario.save()
             producto.save()
             return redirect('producto_lista')
     else:
-        form = ProductoForm()
-    return render(request, 'productos/producto_editar.html', {'form': form})
+        formulario = ProductoForm(instance=producto)
+    return render(request, 'productos/producto_editar.html', {'formulario': formulario})
 
 
 def producto_remove(request, pk):
