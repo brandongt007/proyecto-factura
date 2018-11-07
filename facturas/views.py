@@ -4,6 +4,9 @@ from .forms import ClienteForm, ProductoForm, FacturaForm
 from facturas.models import Producto, Factura, Cliente
 from django.contrib.auth.decorators import login_required
 
+def index(request):
+     return render(request,'facturas/index.html')
+
 @login_required
 def factura_nueva(request):
     if request.method == "POST":
