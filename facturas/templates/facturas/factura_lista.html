@@ -1,8 +1,7 @@
 {% extends 'facturas/base.html' %}
 
 {% block content %}
-    <h1>Listado de Facturas</h1>
-
+    <h1>Listado de Clientes</h1>
     <table class="table">
       <thead class="thead-light">
         <tr>
@@ -22,7 +21,8 @@
           <td>{{ cliente.telefono }}</td>
           <td>
             <div class="" role="" aria-label="Basic example">
-              <a href="#" type="button" class="btn btn-outline-info" role="button" aria-pressed="true">Productos</a>
+              <a href="{% url 'factura_detalle' pk=cliente.pk %}" type="button" class="btn btn-outline-info" role="button" aria-pressed="true">Facturas</a>
+              <a href="{% url 'factura_editar' pk=cliente.pk %}"s type="button" class="btn btn-outline-success" role="button" aria-pressed="true">Editar</a>
               <a href="{% url 'factura_remove' pk=cliente.pk %}" type="button" class="btn btn-outline-danger" role="button" aria-pressed="true">Eliminar</a>
             </div>
           </td>

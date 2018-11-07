@@ -22,7 +22,6 @@
           <td>{{ producto.stock }}</td>
           <td>
             <div class="" role="" aria-label="Basic example">
-              <a href="#" type="button" class="btn btn-outline-info" role="button" aria-pressed="true">Ver</a>
               <a href="{% url 'producto_editar' pk=producto.pk %}" type="button" class="btn btn-outline-success" role="button" aria-pressed="true">Editar</a>
               <a href="{% url 'producto_remove' pk=producto.pk %}" type="button" class="btn btn-outline-danger" role="button" aria-pressed="true">Eliminar</a>
             </div>

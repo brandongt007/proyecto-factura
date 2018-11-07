@@ -13,6 +13,12 @@ def __init__ (self, *args, **kwargs):
         self.fields["productos"].help_text = "Ingrese Productos"
         self.fields["productos"].queryset = Producto.objects.all()
 
+class FacturaForm(forms.ModelForm):
+#todos los campos de Pelicula
+    class Meta:
+        model = Cliente
+        fields = ('nit', 'nombre', 'apellido', 'direccion', 'email', 'telefono')
+
 class ProductoForm(forms.ModelForm):
 #todos los campos de Pelicula
     class Meta:
